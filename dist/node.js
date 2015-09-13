@@ -86,7 +86,7 @@ var Node = React.createClass({
 
   handleMouseDown: function handleMouseDown(e) {
     var nodeId = this.props.index.id;
-    var dom = this.refs.inner.getDOMNode();
+    var dom = this.refs.inner;
 
     if (this.props.onDragStart) {
       this.props.onDragStart(nodeId, dom, e);
