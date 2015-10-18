@@ -15,6 +15,7 @@ npm install react-ui-tree --save
   tree={this.state.tree}        // tree object
   onChange={this.handleChange}  // onChange(tree) tree object changed
   renderNode={this.renderNode}  // renderNode(node) return react element
+  static={false}                //static trees cannot have their structure modified
 />
 
 // a sample tree object
