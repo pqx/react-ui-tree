@@ -10,12 +10,14 @@ module.exports = React.createClass({
   propTypes: {
     tree: React.PropTypes.object.isRequired,
     paddingLeft: React.PropTypes.number,
-    renderNode: React.PropTypes.func.isRequired
+    renderNode: React.PropTypes.func.isRequired,
+    shouldRenderRootNode: React.PropTypes.bool
   },
 
   getDefaultProps: function getDefaultProps() {
     return {
-      paddingLeft: 20
+      paddingLeft: 20,
+      shouldRenderRootNode: true
     };
   },
 
@@ -88,7 +90,8 @@ module.exports = React.createClass({
         paddingLeft: this.props.paddingLeft,
         onDragStart: this.dragStart,
         onCollapse: this.toggleCollapse,
-        dragging: dragging && dragging.id
+        dragging: dragging && dragging.id,
+        shouldRenderRootNode: this.props.shouldRenderRootNode
       })
     );
   },
@@ -225,6 +228,22 @@ module.exports = React.createClass({
     var tree = this.state.tree;
     var index = tree.getIndex(nodeId);
     var node = index.node;
+
+    if (this.props.onLazyloadNode && node.lazy && node.hasChildren) {
+      node.lazy = false;
+      this.props.onLazyloadNode(node, (function (nodes) {
+        nodes.map(function (newNode) {
+          tree.append(newNode, nodeId);
+        });
+        this.makeToggleUpdate(node);
+      }).bind(this));
+    } else {
+      this.makeToggleUpdate(node);
+    }
+  },
+
+  makeToggleUpdate: function makeToggleUpdate(node) {
+    var tree = this.state.tree;
     node.collapsed = !node.collapsed;
     tree.updateNodesPosition();
 
@@ -234,4 +253,5 @@ module.exports = React.createClass({
 
     this.change(tree);
   }
+
 });
