@@ -201,6 +201,9 @@ module.exports = React.createClass({
   },
 
   dragEnd: function dragEnd() {
+    var index = this.state.tree.getIndex(this.state.dragging.id);
+    var parent = this.state.tree.get(index.parent);
+    
     this.setState({
       dragging: {
         id: null,
@@ -211,14 +214,14 @@ module.exports = React.createClass({
       }
     });
 
-    this.change(this.state.tree);
+    this.change(this.state.tree, parent, index.node);
     window.removeEventListener('mousemove', this.drag);
     window.removeEventListener('mouseup', this.dragEnd);
   },
 
-  change: function change(tree) {
+  change(tree, parent, node) {
     this._updated = true;
-    if (this.props.onChange) this.props.onChange(tree.obj);
+    if(this.props.onChange) this.props.onChange(tree.obj, parent, node);
   },
 
   toggleCollapse: function toggleCollapse(nodeId) {
@@ -232,6 +235,6 @@ module.exports = React.createClass({
       tree: tree
     });
 
-    this.change(tree);
+    this.change(tree, null, null);
   }
 });
