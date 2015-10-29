@@ -9,8 +9,9 @@ var Node = React.createClass({
 
   renderCollapse: function renderCollapse() {
     var index = this.props.index;
+    var node = index.node;
 
-    if (index.children && index.children.length) {
+    if (node.hasChildren || index.children && index.children.length) {
       var collapsed = index.node.collapsed;
 
       return React.createElement('span', {
@@ -34,7 +35,7 @@ var Node = React.createClass({
     if (index.children && index.children.length) {
       var childrenStyles = {};
       if (index.node.collapsed) childrenStyles.display = 'none';
-      childrenStyles['paddingLeft'] = this.props.paddingLeft + 'px';
+      childrenStyles['paddingLeft'] = (this.isRoot(index) && !this.props.shouldRenderRootNode ? 0 : this.props.paddingLeft) + 'px';
 
       return React.createElement(
         'div',
@@ -48,13 +49,36 @@ var Node = React.createClass({
             dragging: dragging,
             paddingLeft: _this.props.paddingLeft,
             onCollapse: _this.props.onCollapse,
-            onDragStart: _this.props.onDragStart
+            onDragStart: _this.props.onDragStart,
+            shouldRenderRootNode: _this.props.shouldRenderRootNode
           });
         })
       );
     }
 
     return null;
+  },
+
+  renderInner: function renderInner() {
+    if (this.isRoot() && !this.props.shouldRenderRootNode) {
+      return null;
+    }
+
+    var tree = this.props.tree;
+    var index = this.props.index;
+    var node = index.node;
+
+    return React.createElement(
+      'div',
+      { className: 'inner', ref: 'inner', onMouseDown: this.handleMouseDown },
+      this.renderCollapse(),
+      tree.renderNode(node)
+    );
+  },
+
+  isRoot: function isRoot() {
+    var index = this.props.index;
+    return index.id === 1 ? true : false;
   },
 
   render: function render() {
@@ -69,12 +93,7 @@ var Node = React.createClass({
       { className: cx('m-node', {
           'placeholder': index.id === dragging
         }), style: styles },
-      React.createElement(
-        'div',
-        { className: 'inner', ref: 'inner', onMouseDown: this.handleMouseDown },
-        this.renderCollapse(),
-        tree.renderNode(node)
-      ),
+      this.renderInner(),
       this.renderChildren()
     );
   },
