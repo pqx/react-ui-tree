@@ -1,6 +1,5 @@
 'use strict';
 
-var React = require('react');
 var Tree = require('./tree');
 var Node = require('./node');
 
@@ -30,6 +29,8 @@ module.exports = React.createClass({
     tree.renderNode = props.renderNode;
     tree.changeNodeCollapsed = props.changeNodeCollapsed;
     tree.updateNodesPosition();
+
+    if (props.afterInitialize) props.afterInitialize(this);
 
     return {
       tree: tree,
@@ -101,6 +102,8 @@ module.exports = React.createClass({
     this._offsetX = e.clientX;
     this._offsetY = e.clientY;
     this._start = true;
+
+    this.oldIndex = this.state.tree.getIndex(id);
 
     window.addEventListener('mousemove', this.drag);
     window.addEventListener('mouseup', this.dragEnd);
@@ -194,6 +197,9 @@ module.exports = React.createClass({
     });
   },
   dragEnd: function dragEnd() {
+    var tree = this.state.tree;
+    var index = tree.getIndex(this.dragging.id);
+
     this.setState({
       dragging: {
         id: null,
@@ -204,20 +210,83 @@ module.exports = React.createClass({
       }
     });
 
-    this.change(this.state.tree);
+    this.change(tree);
     window.removeEventListener('mousemove', this.drag);
     window.removeEventListener('mouseup', this.dragEnd);
+
+    if (this.oldIndex.parent != index.parent) {
+      var node = index.node;
+      var parentId = tree.getIndex(index.parent).node.id;
+
+      console.log("We should call onParentChange");
+
+      // The parent node was changed and we should update the server
+      if (this.props.onParentChange) this.props.onParentChange(node, parentId);
+    }
   },
   change: function change(tree) {
     this._updated = true;
     if (this.props.onChange) this.props.onChange(tree.obj);
+  },
+  openNode: function(ancestors, nodeId) {
+    if (ancestors.length > 0) {
+      var region = ancestors.pop();
+      var index = this.state.tree.getIndexByNodeId(region.id);
+      this.fetchChildren(index, function() {this.openNode(ancestors, nodeId)}.bind(this));
+    } else {
+      $("#"+nodeId).click();
+    }
   },
   toggleCollapse: function toggleCollapse(nodeId) {
     var tree = this.state.tree;
     var index = tree.getIndex(nodeId);
     var node = index.node;
     node.collapsed = !node.collapsed;
-    tree.updateNodesPosition();
+    if (!node.collapsed && node.isParent) { // We're going to call the server so don't update the tree yet.
+      this.fetchChildren(index);
+      LocationManager.fetchRegions(node.id);
+    } else {
+      tree.updateNodesPosition();
+      this.setState({
+        tree: tree
+      });
+
+      this.change(tree);
+    }
+  },
+  fetchChildren: function(index, successCallback) {
+    var tree = this.state.tree;
+    var node = index.node;
+    var url = 'region_containers/'+node.id+'/children';
+
+    Utility.makeAjaxCall(url,
+      function(data) {
+        var children = data.children;
+        if (children.length && children.length > 0) {
+          index.children = []; //empty the children array
+          index.node.children = [];
+          children.map(function(obj) {
+            tree.insert(obj, index.id, 0)
+          })
+        }
+        node.collapsed = false;
+        tree.updateNodesPosition();
+        this.setState({
+          tree: tree
+        });
+
+        this.change(tree);
+        if(successCallback) {
+          successCallback()
+        }
+      }.bind(this),
+      function() {console.log("Ajax failed")},'GET', 'json',''
+    )
+  },
+  removeNode: function (indexId) {
+    var tree = this.state.tree;
+
+    tree.remove(indexId)
 
     this.setState({
       tree: tree
