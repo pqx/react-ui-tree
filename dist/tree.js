@@ -3,6 +3,51 @@
 var Tree = require('js-tree');
 var proto = Tree.prototype;
 
+proto.indexesByNodeId = {};
+
+proto.build = function(obj) {
+  var indexes = this.indexes;
+  var indexesByNodeId = this.indexesByNodeId;
+  var startId = this.cnt;
+  var self = this;
+
+  var index = {id: startId, node: obj};
+  indexes[this.cnt+''] = index;
+  indexesByNodeId[obj.id+''] = index;
+  this.cnt++;
+
+  if(obj.children && obj.children.length) walk(obj.children, index);
+
+  function walk(objs, parent) {
+    var children = [];
+    objs.forEach(function(obj, i) {
+      var index = {};
+      index.id = self.cnt;
+      index.node = obj;
+
+      if(parent) index.parent = parent.id;
+
+      indexes[self.cnt+''] = index;
+      indexesByNodeId[obj.id+''] = index;
+      children.push(self.cnt);
+      self.cnt++;
+
+      if(obj.children && obj.children.length) walk(obj.children, index);
+    });
+    parent.children = children;
+
+    children.forEach(function(id, i) {
+      var index = indexes[id+''];
+      if(i > 0) index.prev = children[i-1];
+      if(i < children.length-1) index.next = children[i+1];
+    });
+  }
+
+  console.log("index", index)
+  return index;
+};
+
+
 proto.updateNodesPosition = function () {
   var top = 1;
   var left = 1;
@@ -61,6 +106,11 @@ proto.getNodeByTop = function (top) {
       if (indexes[id].top === top) return indexes[id];
     }
   }
+};
+
+proto.getIndexByNodeId = function(nodeId) {
+  var index = this.indexesByNodeId[nodeId+''];
+  if(index) return index;
 };
 
 module.exports = Tree;

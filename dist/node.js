@@ -1,8 +1,6 @@
 'use strict';
 
 var cx = require('classnames');
-var React = require('react');
-var ReactDOM = require('react-dom');
 
 var Node = React.createClass({
   displayName: 'UITreeNode',
@@ -10,11 +8,11 @@ var Node = React.createClass({
   renderCollapse: function renderCollapse() {
     var index = this.props.index;
 
-    if (index.children && index.children.length) {
+    if ((index.children && index.children.length) || (index.node && index.node.isParent === true)) {
       var collapsed = index.node.collapsed;
 
-      return React.createElement('span', {
-        className: cx('collapse', collapsed ? 'caret-right' : 'caret-down'),
+      return React.createElement('span',  {
+        className: cx('nrby-tree-collapse', collapsed ? 'caret-right' : 'caret-down'),
         onMouseDown: function onMouseDown(e) {
           e.stopPropagation();
         },
@@ -59,19 +57,18 @@ var Node = React.createClass({
     var tree = this.props.tree;
     var index = this.props.index;
     var dragging = this.props.dragging;
-    var node = index.node;
     var styles = {};
 
     return React.createElement(
       'div',
       { className: cx('m-node', {
-          'placeholder': index.id === dragging
-        }), style: styles },
+        'placeholder': index.id === dragging
+      }), style: styles },
       React.createElement(
         'div',
         { className: 'inner', ref: 'inner', onMouseDown: this.handleMouseDown },
         this.renderCollapse(),
-        tree.renderNode(node)
+        tree.renderNode(index)
       ),
       this.renderChildren()
     );
@@ -82,10 +79,11 @@ var Node = React.createClass({
     if (this.props.onCollapse) this.props.onCollapse(nodeId);
   },
   handleMouseDown: function handleMouseDown(e) {
+    console.log(this);
     var nodeId = this.props.index.id;
     var dom = this.refs.inner;
 
-    if (this.props.onDragStart) {
+    if (this.props.onDragStart && !window.editingNode) {
       this.props.onDragStart(nodeId, dom, e);
     }
   }
