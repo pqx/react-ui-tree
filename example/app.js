@@ -40,6 +40,8 @@ var App = React.createClass({
             paddingLeft={20}
             tree={this.state.tree}
             onChange={this.handleChange}
+            onDragStart={this.handleDragStart}
+            onDragEnd={this.handleDragEnd}
             isNodeCollapsed={this.isNodeCollapsed}
             renderNode={this.renderNode}
           />
@@ -58,6 +60,19 @@ var App = React.createClass({
     this.setState({
       tree: tree
     });
+  },
+
+  handleDragStart(node) {
+    console.log('Drag start on', node.node.module)
+    this.dragging = node
+  },
+
+  handleDragEnd(node) {
+    console.log('Drag start on', node.node.module)
+    if (node.parent != this.dragging.parent) {
+      console.log('Parent changed')
+    }
+    this.dragging = null
   },
 
   updateTree() {
