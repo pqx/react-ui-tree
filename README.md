@@ -1,4 +1,4 @@
-# jab-react-tree [![Build Status](https://travis-ci.org/gabchang/react-ui-tree.svg)](https://travis-ci.org/gabchang/react-ui-tree)
+# jab-react-tree [![Build Status](https://travis-ci.org/gabchang/jab-react-tree.svg)](https://travis-ci.org/gabchang/jab-react-tree)
 React tree component
 
 This is a fork of [react-ui-tree](https://pqx.github.io/react-ui-tree) by [Wang Zuo](https://github.com/pqx).
@@ -36,7 +36,7 @@ npm install react-ui-tree --save
   }]
 }
 ```
-check [app.js](https://github.com/gabchang/react-ui-tree/blob/master/example/app.js) for a working example
+check [app.js](https://github.com/gabchang/jab-react-tree/blob/master/example/app.js) for a working example
 
 ### Development
 - npm install
