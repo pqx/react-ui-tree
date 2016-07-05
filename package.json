@@ -29,7 +29,7 @@
   "homepage": "https://github.com/gabchang/react-ui-tree",
   "peerDependencies": {
     "react": "^15.1.0",
-    "react-dom": "^15.1.0",
+    "react-dom": "^15.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.10.4",
