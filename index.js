@@ -1,1 +1,1 @@
-module.exports = require('./dist/react-ui-tree');
+module.exports = require('./dist/jab-react-tree');

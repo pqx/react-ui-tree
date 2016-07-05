@@ -10,7 +10,9 @@ module.exports = React.createClass({
   propTypes: {
     tree: React.PropTypes.object.isRequired,
     paddingLeft: React.PropTypes.number,
-    renderNode: React.PropTypes.func.isRequired
+    renderNode: React.PropTypes.func.isRequired,
+    onDragStart: React.PropTypes.func,
+    onDragEnd: React.PropTypes.func
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -88,6 +90,9 @@ module.exports = React.createClass({
     );
   },
   dragStart: function dragStart(id, dom, e) {
+    var onDragStart = this.props.onDragStart;
+
+
     this.dragging = {
       id: id,
       w: dom.offsetWidth,
@@ -102,9 +107,12 @@ module.exports = React.createClass({
     this._offsetY = e.clientY;
     this._start = true;
 
+    onDragStart && onDragStart(this.getNode(id));
+
     window.addEventListener('mousemove', this.drag);
     window.addEventListener('mouseup', this.dragEnd);
   },
+
 
   // oh
   drag: function drag(e) {
@@ -194,6 +202,14 @@ module.exports = React.createClass({
     });
   },
   dragEnd: function dragEnd() {
+    var onDragEnd = this.props.onDragEnd;
+    var _state = this.state;
+    var tree = _state.tree;
+    var id = _state.dragging.id;
+
+
+    onDragEnd && onDragEnd(this.getNode(id));
+
     this.setState({
       dragging: {
         id: null,
@@ -208,6 +224,14 @@ module.exports = React.createClass({
     window.removeEventListener('mousemove', this.drag);
     window.removeEventListener('mouseup', this.dragEnd);
   },
+
+
+  getNode: function getNode(id) {
+    var tree = this.state.tree;
+
+    return tree.getIndex(id);
+  },
+
   change: function change(tree) {
     this._updated = true;
     if (this.props.onChange) this.props.onChange(tree.obj);

@@ -9,7 +9,7 @@ This project was initially developed for a webpage builder. It maintains an inte
 
 ### Installation
 ``` sh
-npm install react-ui-tree --save
+npm install jab-react-tree --save
 ```
 
 ### Properties
@@ -81,7 +81,7 @@ const tree = {
 // a sample tree object
 // node.children, node.collapsed, node.leaf properties are hardcoded
 {
-  "module": "react-ui-tree",
+  "module": "jab-react-tree",
   "children": [{
     "collapsed": true,
     "module": "dist",

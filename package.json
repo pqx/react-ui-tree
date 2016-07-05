@@ -1,6 +1,6 @@
 {
   "name": "jab-react-tree",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React tree component",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gabchang/react-ui-tree.git"
+    "url": "https://github.com/gabchang/jab-react-tree.git"
   },
   "keywords": [
     "react",
@@ -24,9 +24,9 @@
   "author": "Gabriel Chang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gabchang/react-ui-tree/issues"
+    "url": "https://github.com/gabchang/jab-react-tree/issues"
   },
-  "homepage": "https://github.com/gabchang/react-ui-tree",
+  "homepage": "https://github.com/gabchang/jab-react-tree",
   "peerDependencies": {
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
