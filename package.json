@@ -1,6 +1,6 @@
 {
   "name": "jab-react-tree",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "React tree component",
   "main": "index.js",
   "scripts": {

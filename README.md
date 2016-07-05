@@ -5,7 +5,7 @@ This is a fork of [react-ui-tree](https://pqx.github.io/react-ui-tree) by [Wang 
 This project was initially developed for a webpage builder. It maintains an internal tree structure within the component through [js-tree](https://github.com/wangzuo/js-tree).
 
 ### Demo
-[https://pqx.github.io/react-ui-tree](https://pqx.github.io/react-ui-tree)
+[https://gabchang.github.io/jab-react-tree](https://gabchang.github.io/jab-react-tree)
 
 ### Installation
 ``` sh
