@@ -70,7 +70,7 @@ var App = React.createClass({
   handleDragEnd(node) {
     console.log('Drag start on', node.node.module)
     if (node.parent != this.dragging.parent) {
-      console.log('Parent changed')
+      console.log('Parent changed', node)
     }
     this.dragging = null
   },

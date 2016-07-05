@@ -12,6 +12,61 @@ This project was initially developed for a webpage builder. It maintains an inte
 npm install react-ui-tree --save
 ```
 
+### Properties
+
+  * paddingLeft {Number}              
+    Left padding for children nodes in pixels
+  * tree {Object}
+    Tree object (nested)
+  * onChange {Func}
+    Gets the full tree object as parameter
+  * renderNode {Func}
+    Return react element
+  * onDragStart {Func}
+    Gets the dragging node as parameter
+  * onDragEnd {Func}
+    Gets the dropped node as parameter
+
+### Tree object
+
+A nested object :
+
+```
+const tree = {
+  <your custom node props>
+  children: [
+    {
+      <your custom node props>
+    },
+    ...
+  ]
+}
+```
+
+### Node object
+
+```
+{
+  id    : {Number}, // The internal node id
+  top   : {Number}, // internal id
+  left  : {Number}, // internal id
+  prev  : {Number}, // internal id
+  next  : {Number}, // internal id
+  parent: {Number}, // internal id
+  node  : {Object}, // Node state with your custom props
+}
+```
+
+### Node.node
+
+```
+{
+  collapsed: {Bool} // Open or closed state
+  leaf     : {Bool} // If true, can not have child
+  ...(your custom props)
+}
+```
+
 ### Usage
 ``` javascript
 <Tree
