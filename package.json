@@ -1,6 +1,6 @@
 {
-  "name": "react-ui-tree",
-  "version": "2.5.0",
+  "name": "jab-react-tree",
+  "version": "1.0.0",
   "description": "React tree component",
   "main": "index.js",
   "scripts": {
@@ -14,22 +14,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pqx/react-ui-tree.git"
+    "url": "https://github.com/gabchang/react-ui-tree.git"
   },
   "keywords": [
     "react",
     "react-component",
     "tree"
   ],
-  "author": "Wang Zuo",
+  "author": "Gabriel Chang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pqx/react-ui-tree/issues"
+    "url": "https://github.com/gabchang/react-ui-tree/issues"
   },
-  "homepage": "https://github.com/pqx/react-ui-tree",
+  "homepage": "https://github.com/gabchang/react-ui-tree",
   "peerDependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react": "^0.15.0",
+    "react-dom": "^0.15.0"
   },
   "devDependencies": {
     "babel-core": "^6.4.0",
