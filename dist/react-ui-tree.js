@@ -3,6 +3,7 @@
 var React = require('react');
 var Tree = require('./tree');
 var Node = require('./node');
+var isClicked;
 
 module.exports = React.createClass({
   displayName: 'UITree',
@@ -101,10 +102,13 @@ module.exports = React.createClass({
     this._offsetX = e.clientX;
     this._offsetY = e.clientY;
     this._start = true;
+    this._startId = id;
 
     window.addEventListener('mousemove', this.drag);
     window.addEventListener('mouseup', this.dragEnd);
+    isClicked = true;
   },
+
 
   // oh
   drag: function drag(e) {
@@ -192,8 +196,12 @@ module.exports = React.createClass({
       tree: tree,
       dragging: dragging
     });
+
+    isClicked = false;
   },
   dragEnd: function dragEnd() {
+    var id = this.state.dragging.id;
+
     this.setState({
       dragging: {
         id: null,
@@ -204,7 +212,11 @@ module.exports = React.createClass({
       }
     });
 
-    this.change(this.state.tree);
+    if (!isClicked && id !== this._startId) {
+      this.change(this.state.tree);
+      this._startId = null;
+    }
+
     window.removeEventListener('mousemove', this.drag);
     window.removeEventListener('mouseup', this.dragEnd);
   },
