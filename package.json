@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/pqx/react-ui-tree",
   "peerDependencies": {
-    "react": "^0.14.0",
+    "react": "^15.3.2",
     "react-dom": "^0.14.0"
   },
   "devDependencies": {
