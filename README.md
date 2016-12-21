@@ -13,6 +13,7 @@ npm install react-ui-tree --save
 <Tree
   paddingLeft={20}              // left padding for children nodes in pixels
   tree={this.state.tree}        // tree object
+  freeze={false}                // set it to true to stop dragging events
   onChange={this.handleChange}  // onChange(tree) tree object changed
   renderNode={this.renderNode}  // renderNode(node) return react element
 />
