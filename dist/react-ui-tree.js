@@ -209,9 +209,9 @@ module.exports = React.createClass({
     window.removeEventListener('mousemove', this.drag);
     window.removeEventListener('mouseup', this.dragEnd);
   },
-  change: function change(tree) {
+  change: function change(tree, node) {
     this._updated = true;
-    if (this.props.onChange) this.props.onChange(tree.obj);
+    if (this.props.onChange) this.props.onChange(tree.obj, node);
   },
   toggleCollapse: function toggleCollapse(nodeId) {
     var tree = this.state.tree;
@@ -224,6 +224,6 @@ module.exports = React.createClass({
       tree: tree
     });
 
-    this.change(tree);
+    this.change(tree, node);
   }
 });
