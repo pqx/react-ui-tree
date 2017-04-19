@@ -32,6 +32,16 @@ var App = React.createClass({
     });
   },
 
+  renderCollapse(collapsed) {
+    return (
+      <span
+        className={cx('collapse', collapsed ? 'caret-right' : 'caret-down')}
+        onMouseDown={function(e) {e.stopPropagation()}}
+        onClick={this.handleCollapse}>
+      </span>
+    )
+  },
+
   render() {
     return (
       <div className="app">
@@ -42,6 +52,7 @@ var App = React.createClass({
             onChange={this.handleChange}
             isNodeCollapsed={this.isNodeCollapsed}
             renderNode={this.renderNode}
+            renderCollapse={this.renderCollapse}
           />
         </div>
         <div className="inspector">
