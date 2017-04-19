@@ -7,7 +7,8 @@
     "start": "webpack-dev-server -c --port=8888",
     "build": "make",
     "deploy": "npm run build && github-pages-deploy",
-    "test": "mocha"
+    "test": "mocha",
+    "upgrade:version": "npm run build && npm version patch && git push && npm publish"
   },
   "github-pages-deploy": {
     "src": "example"
