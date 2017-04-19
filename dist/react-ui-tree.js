@@ -60,7 +60,8 @@ module.exports = React.createClass({
         React.createElement(Node, {
           tree: tree,
           index: draggingIndex,
-          paddingLeft: this.props.paddingLeft
+          paddingLeft: this.props.paddingLeft,
+          renderCollapse: this.props.renderCollapse
         })
       );
     }
@@ -83,7 +84,8 @@ module.exports = React.createClass({
         paddingLeft: this.props.paddingLeft,
         onDragStart: this.dragStart,
         onCollapse: this.toggleCollapse,
-        dragging: dragging && dragging.id
+        dragging: dragging && dragging.id,
+        renderCollapse: this.props.renderCollapse
       })
     );
   },

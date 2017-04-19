@@ -33,6 +33,7 @@ var App = React.createClass({
   },
 
   renderCollapse(collapsed) {
+    debugger;
     return (
       <span
         className={cx('collapse', collapsed ? 'caret-right' : 'caret-down')}
