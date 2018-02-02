@@ -40,17 +40,11 @@ class App extends Component {
           <Tree
             paddingLeft={20}
             tree={this.state.tree}
+            draggable={false}
             onChange={this.handleChange}
             isNodeCollapsed={this.isNodeCollapsed}
             renderNode={this.renderNode}
           />
-        </div>
-        <div className="inspector">
-          <h1>
-            {packageJSON.name} {packageJSON.version}
-          </h1>
-          <button onClick={this.updateTree}>update tree</button>
-          <pre>{JSON.stringify(this.state.tree, null, '  ')}</pre>
         </div>
       </div>
     );
