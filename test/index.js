@@ -5,17 +5,22 @@ describe('tree', function() {
   var tree = new Tree({
     module: 'root',
     collapsed: false,
-    children: [{
-      module: 'a',
-      collapsed: false,
-      children: [{
-        module: 'c',
+    children: [
+      {
+        module: 'a',
+        collapsed: false,
+        children: [
+          {
+            module: 'c',
+            collapsed: false
+          }
+        ]
+      },
+      {
+        module: 'b',
         collapsed: false
-      }]
-    }, {
-      module: 'b',
-      collapsed: false
-    }]
+      }
+    ]
   });
 
   it('updateNodesPosition()', function() {

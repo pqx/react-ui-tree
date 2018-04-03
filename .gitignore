@@ -28,3 +28,5 @@ node_modules
 
 example/bundle*
 .publish
+
+dist

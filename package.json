@@ -1,12 +1,14 @@
 {
   "name": "react-ui-tree",
-  "version": "2.6.0",
+  "version": "3.1.0",
   "description": "React tree component",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server -c --port=8888",
+    "start": "webpack-dev-server --port=8080",
     "build": "make",
-    "deploy": "npm run build && github-pages-deploy",
+    "deploy": "rm -rf .publish && npm run build && github-pages-deploy",
+    "pretest": "npm run build",
+    "prepublish": "npm test",
     "test": "mocha"
   },
   "github-pages-deploy": {
@@ -28,26 +30,30 @@
   },
   "homepage": "https://github.com/pqx/react-ui-tree",
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0"
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.20.0",
-    "babel-loader": "^6.2.9",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-react": "^6.16.0",
-    "css-loader": "^0.26.1",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.7",
     "github-pages-deploy": "^0.0.3",
-    "less": "^2.7.1",
-    "less-loader": "^2.2.3",
-    "mocha": "^3.2.0",
-    "style-loader": "^0.13.1",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "mocha": "^3.5.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.3.0",
+    "webpack-dev-server": "^2.5.1"
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "js-tree": "^1.1.0"
+    "js-tree": "^2.0.1",
+    "prop-types": "^15.5.10"
   }
 }
