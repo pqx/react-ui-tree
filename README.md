@@ -44,6 +44,10 @@ npm install react-ui-tree --save
 }
 ```
 
+// The Takipi changes made to this repo are support for:
+// disableHorizontalDrag - if set to true, all elements can only be dragged vertically
+// disableRootDrag - if set to true, the root of a tree is un-draggable 
+
 check [app.js](https://github.com/pqx/react-ui-tree/blob/master/example/app.js)
 for a working example
 
