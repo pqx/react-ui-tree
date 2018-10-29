@@ -28,6 +28,7 @@ npm install react-ui-tree --save
   tree={this.state.tree}        // tree object
   onChange={this.handleChange}  // onChange(tree) tree object changed
   renderNode={this.renderNode}  // renderNode(node) return react element
+  isActiveNode={this.isActiveNode}  // isActiveNode(node) implement function to add active/selected styles to whole node (not just inner part), defaults to false
 />
 
 // a sample tree object

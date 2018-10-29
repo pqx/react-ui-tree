@@ -19,6 +19,14 @@
 }
 
 .m-node {
+  &.is-active {
+      color: #4286f4;
+
+      .inner {
+          color: inherit;
+      }
+  }
+
   &.placeholder > * {
     visibility: hidden;
   }
