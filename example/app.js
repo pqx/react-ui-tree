@@ -6,8 +6,21 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Tree from '../lib/react-ui-tree.js';
 import tree from './tree';
+import links from './quicklinks'
 import packageJSON from '../package.json';
 import _ from 'lodash';
+import Grid from 'material-ui/Grid';
+import Table, {
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from "material-ui/Table";
+import Paper from "material-ui/Paper";
+import Input, { InputLabel } from 'material-ui/Input';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Typography from 'material-ui/Typography';
+
 
 class SearchTree extends Component {
   constructor(props) {
@@ -16,12 +29,16 @@ class SearchTree extends Component {
     this.state = {
         query : "",
         original_tree: tree,
-        current_tree: tree
+        current_tree: tree,
+        file_node: {
+          link:"",
+          module:""
+        }
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
+    this.changeUrl = this.changeUrl.bind(this);
   }
 
   handleSubmit(event) {
@@ -42,9 +59,13 @@ class SearchTree extends Component {
     // we get the new tree rendered automatically.
   }
 
+  changeUrl(node) {
+    this.setState({file_node: node});
+  }
+
   getNewTree(thisQuery) {
       let original_tree_clone = _.cloneDeep(this.state.original_tree);
-      let newTree = this.recursiveTreeConstruct(thisQuery, original_tree_clone, original_tree_clone.module);
+      let newTree = this.recursiveTreeConstruct(thisQuery, original_tree_clone);
       if(newTree != null) {
         this.setState({current_tree: newTree});
       }
@@ -57,12 +78,12 @@ class SearchTree extends Component {
     }
   }
 
-  recursiveTreeConstruct(query, thisTree, rootElement) {
+  recursiveTreeConstruct(query, thisTree) {
 
     // We will check if the current level has the matched pattern.
     // Exception is that we need the parent always.
     if(thisTree.module != null) {
-      if(thisTree.module.toLowerCase().indexOf(query.toLowerCase()) > -1 && thisTree.module != rootElement) {
+      if(thisTree.module.toLowerCase().indexOf(query.toLowerCase()) > -1 && thisTree.module != "Logs") {
         thisTree.collapsed = false;
         // maybe add a close all children function...?
         return thisTree;
@@ -92,22 +113,80 @@ class SearchTree extends Component {
 
   render() {
     return (
+          <Grid container>
+          <Grid item xs={4}>
+            <br/>
+            <br/>
+            <Typography variant="headline" component="h3">
+              QuickLinks
+            </Typography>
+            <Paper>
+              <div className="quickLinks">
+                <QuickLinks />
+              </div>
+            </Paper>
+            <br/>
+            <br/>
+            <br/>
+            <Typography variant="headline" component="h3">
+              Log Tree
+            </Typography>
 
-          <div className="app">
-            <div className="tree">
-            <form onSubmit={this.handleSubmit}>
-              <input type="text" value={this.state.query} onChange={this.handleChange} name="search_query" />
-            </form>
-            <DisplayQuery
-              query={this.state.query}
-            />
-              <TreeComponent
-                tree={this.state.current_tree}
-              />
+            <div className="app">
+              <div className="tree">
+              <FormControl onSubmit={this.handleSubmit}>
+                <InputLabel htmlFor="file-query">Search For files</InputLabel>
+                <Input id="file-query" type="text" value={this.state.query} onChange={this.handleChange} name="search_query" />
+              </FormControl>
+                <TreeComponent
+                  tree={this.state.current_tree}
+                  changeUrl={this.changeUrl}
+                />
+              </div>
             </div>
-          </div>
+            </Grid>
+            <Grid item xs={8} xl={8}>
+              <br/>
+              <br/>
+
+            <Typography variant="headline" component="h3">
+              File Preview
+            </Typography>
+
+              <Paper className="preview_holder">
+              <RenderFile node={this.state.file_node}/>
+              </Paper>
+            </Grid>
+            </Grid>
     )
   };
+}
+
+class RenderFile extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      node: this.props.node
+    }
+  }
+
+
+
+  render() {
+
+    return (
+      <span>
+        <Typography component="p">
+          Current File = {this.props.node.module}
+        </Typography>
+        <Typography component="p">
+          <a href={this.props.node.link} target="blank">Open in new tab</a>
+        </Typography>
+        <iframe id="preview_window" src={this.props.node.link} />
+      </span>
+    )
+  }
 }
 
 class DisplayQuery extends Component {
@@ -122,10 +201,53 @@ class DisplayQuery extends Component {
   render() {
     return (
       <div>
-       {this.props.query}
+       Searching For - {this.props.query}
       </div>
     )
   }
+}
+
+class QuickLinks extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      links: links
+    };
+  }
+
+  returnRow = row => {
+    console.log(row)
+    return (
+      <tr>
+        <td>{row.component}</td>
+        <td><a href="{row.link}">{row.link}</a></td>
+      </tr>
+    )
+  }
+
+  render() {
+    return (
+      <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Component</TableCell>
+                    <TableCell>QuickLinks </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {
+                    links.map(function(link, i) {
+                      return <TableRow>
+                              <TableCell>{link.head}</TableCell>
+                              <TableCell><a href={link.link}>{link.component}</a></TableCell>
+                            </TableRow>;
+                    })
+                  }
+                </TableBody>
+      </Table>
+    )
+  };
 }
 
 class TreeComponent extends Component {
@@ -145,9 +267,7 @@ class TreeComponent extends Component {
         })}
         onClick={this.onClickNode.bind(null, node)}
       >
-      <a href={node.link}>
         {node.module}
-       </a>
       </span>
     );
   };
@@ -157,6 +277,7 @@ class TreeComponent extends Component {
     this.setState({
       active: node
     });
+    this.props.changeUrl(node);
   };
 
   render() {

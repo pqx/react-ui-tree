@@ -4,7 +4,7 @@
   "description": "React tree component",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --port=8080",
+    "start": "webpack-dev-server --host 0.0.0.0 --port=8080",
     "build": "make",
     "deploy": "rm -rf .publish && npm run build && github-pages-deploy",
     "pretest": "npm run build",
@@ -48,13 +48,16 @@
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "style-loader": "^0.18.2",
-    "webpack": "^3.3.0",
-    "webpack-dev-server": "^2.5.1"
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.2"
   },
   "dependencies": {
     "classnames": "^2.2.5",
     "js-tree": "^2.0.1",
     "lodash": "^4.17.5",
+    "material-ui": "^1.0.0-beta.35",
+    "material-ui-icons": "^1.0.0-beta.35",
+    "muicss": "^0.9.36",
     "prop-types": "^15.5.10"
   }
 }
