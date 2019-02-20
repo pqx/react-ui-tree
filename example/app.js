@@ -238,7 +238,7 @@ class QuickLinks extends Component {
                 <TableBody>
                   {
                     links.map(function(link, i) {
-                      return <TableRow>
+                      return <TableRow key={link.head}>
                               <TableCell>{link.head}</TableCell>
                               <TableCell><a href={link.link}>{link.component}</a></TableCell>
                             </TableRow>;
