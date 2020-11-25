@@ -12,7 +12,7 @@ internal tree structure within the component through
 
 ### Demo
 
-[swiftcarrot.github.io/react-ui-tree/](swiftcarrot.github.io/react-ui-tree/)
+[swiftcarrot.github.io/react-ui-tree/](https://swiftcarrot.github.io/react-ui-tree/)
 
 ### Installation
 
